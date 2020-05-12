@@ -1,0 +1,91 @@
+{% extends "base_generic.html" %}
+
+
+{% block content %}
+<!-- List group -->
+<div class="list-group list-group-horizontal-sm" id="myList" role="tablist">
+  <a class="list-group-item list-group-item-action  active"   data-toggle="list" href="#event" role="tab">Мероприятие</a>
+  <a class="list-group-item list-group-item-action " data-toggle="list" href="#business_travelers" role="tab">Командированные лица</a>
+</div>
+
+<!-- Tab panes -->
+<div class="tab-content" >
+    <div class="tab-pane fade show active" id="event" role="tabpanel">
+
+        <form>
+        <div class="form-row">
+            <div class="col">
+                <div class="form-group">
+                    <label for="exampleInputEmail1">Вид мероприятия</label>
+                    <input type="text" class="form-control"  >
+                    <small id="emailHelp" class="form-text text-muted"></small>
+                </div>
+            </div>
+
+            <div class="col">
+                <div class="form-group">
+                    <label for="exampleInputEmail1">Название мероприятия</label>
+                    <input type="text" class="form-control"  >
+                    <small id="emailHelp" class="form-text text-muted">Комент
+                    </small>
+                </div>
+            </div>
+        </div>
+        <div class="form-row">
+            <div class="col">
+                <div class="form-group">
+                    <label for="exampleInputEmail1">Населенный пункт</label>
+                    <input type="text" class="form-control"  >
+                    <small id="emailHelp" class="form-text text-muted">Комент
+                    </small>
+                </div>
+            </div>
+
+            <div class="col">
+                <div class="form-group">
+                    <label for="exampleInputEmail1">Учебное заведение</label>
+                    <input type="text" class="form-control"  >
+                    <small id="emailHelp" class="form-text text-muted">Комент
+                    </small>
+                </div>
+            </div>
+        </div>
+        <div class="form-row">
+            <div class="col">
+                <div class="form-group">
+                    <label for="exampleInputEmail1">Цель поездки</label>
+                    <input type="text" class="form-control"  >
+                    <small id="emailHelp" class="form-text text-muted">Комент
+                    </small>
+                </div>
+            </div>
+            <div class="col">
+                <label for="exampleInputEmail1">Даты поездки</label>
+                <input type="text" name="daterange"  class="form-control"  />
+                <script>
+                    $(function() {
+                      $('input[name="daterange"]').daterangepicker({
+                        opens: 'left'
+                      }, function(start, end, label) {
+                        console.log("A new date selection was made: " + start.format('YYYY-MM-DD') + ' to ' + end.format('YYYY-MM-DD'));
+                      });
+                    });
+                </script>
+                <small id="emailHelp" class="form-text text-muted">Комент
+                    </small>
+            </div>
+        </div>
+    </form>
+    </div>
+
+    <div class="tab-pane fade hidden " id="business_travelers" role="tabpanel">
+        <label >Список командированных лиц</label>
+        <ul class="list-group">
+          <li class="list-group-item"></li>
+        </ul>
+    </div>
+</div>
+
+
+
+{% endblock %}
