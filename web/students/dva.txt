@@ -1,0 +1,12 @@
+Утверждаю
+Ректор ЮУрГУ_________#rektorFio
+Смета
+расходов по участию в #nazvanie_meropriyatie с #daystart по #dayend
+№ п/п	Статья
+расхода	Наименование расходов	Сумма на 1 чел. (руб.)	Сумма на #kol_chel чел. (руб.)	Источник компенсации расходов
+		#table_smetaStudenta			
+		Итого:			
+#dolzn_podrazd	#ioFglavnyi
+Согласовано:
+#table_spisokDolznostnixSmeta	
+
