@@ -8,9 +8,6 @@ def docs(request):
 		unique_forms.append(NapravlenieStudentaForm(data=request.POST))
 		if unique_forms[-1].is_valid():
 			unique_forms[-1].save()
-		unique_forms.append(PrikazForm(data=request.POST))
-		if unique_forms[-1].is_valid():
-			unique_forms[-1].save()
 		unique_forms.append(SluzhebnajaZapiskaForm(data=request.POST))
 		if unique_forms[-1].is_valid():
 			unique_forms[-1].save()
@@ -25,7 +22,6 @@ def docs(request):
 			unique_forms[-1].save()
 	else:
 		unique_forms.append(NapravlenieStudentaForm())
-		unique_forms.append(PrikazForm())
 		unique_forms.append(SluzhebnajaZapiskaForm())
 		unique_forms.append(SmetaForm())
 		unique_forms.append(OtchetStudentaForm())

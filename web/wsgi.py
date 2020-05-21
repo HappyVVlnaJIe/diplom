@@ -14,4 +14,7 @@ from django.core.wsgi import get_wsgi_application
 
 os.environ.setdefault("DJANGO_SETTINGS_MODULE", "web.settings")
 migrate_retcode = subprocess.run(["python", "../runscript.py"], capture_output=True).returncode
-application = get_wsgi_application()
+if migrate_retcode == 0:
+    application = get_wsgi_application()
+else:
+    raise Exception("failed to generate")
