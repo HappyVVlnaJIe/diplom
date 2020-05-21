@@ -21,10 +21,10 @@ from django.core.wsgi import get_wsgi_application
 
 os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'web.settings')
 
-doc_directory = ['..\students\primaryTemplates',
-                 '..\students\secondaryTemplates',]
+doc_directory = ['../students/primaryTemplates',
+                 '../students/secondaryTemplates',]
 
-settings_path='..\doc_settings\prompt_and_types.txt'
+settings_path='../doc_settings/prompt_and_types.txt'
 
 primaryTemplates=[]
 
