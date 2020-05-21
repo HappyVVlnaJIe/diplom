@@ -13,8 +13,9 @@ import subprocess
 from django.core.wsgi import get_wsgi_application
 
 os.environ.setdefault("DJANGO_SETTINGS_MODULE", "web.settings")
-migrate_retcode = subprocess.run(["python", "../runscript.py"], capture_output=True).returncode
-if migrate_retcode == 0:
+p = subprocess.Popen(["python", "../runscript.py"], stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+out, err = p.communicate()
+if p.returncode == 0:
     application = get_wsgi_application()
 else:
-    raise Exception("failed to generate")
+    raise Exception("{}, out={}".format(err,out))
