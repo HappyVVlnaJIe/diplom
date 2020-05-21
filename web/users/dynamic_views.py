@@ -5,17 +5,29 @@ from django.shortcuts import render
 def docs(request):
 	unique_forms=[]
 	if request.method == 'POST':
-		unique_forms.append(dvaForm(data=request.POST))
+		unique_forms.append(NapravlenieStudentaForm(data=request.POST))
 		if unique_forms[-1].is_valid():
 			unique_forms[-1].save()
-		unique_forms.append(odinForm(data=request.POST))
+		unique_forms.append(PrikazForm(data=request.POST))
 		if unique_forms[-1].is_valid():
 			unique_forms[-1].save()
-		unique_forms.append(commonForm(data=request.POST))
+		unique_forms.append(SluzhebnajaZapiskaForm(data=request.POST))
+		if unique_forms[-1].is_valid():
+			unique_forms[-1].save()
+		unique_forms.append(SmetaForm(data=request.POST))
+		if unique_forms[-1].is_valid():
+			unique_forms[-1].save()
+		unique_forms.append(OtchetStudentaForm(data=request.POST))
+		if unique_forms[-1].is_valid():
+			unique_forms[-1].save()
+		unique_forms.append(osnovnyeForm(data=request.POST))
 		if unique_forms[-1].is_valid():
 			unique_forms[-1].save()
 	else:
-		unique_forms.append(dvaForm())
-		unique_forms.append(odinForm())
-		unique_forms.append(commonForm())
+		unique_forms.append(NapravlenieStudentaForm())
+		unique_forms.append(PrikazForm())
+		unique_forms.append(SluzhebnajaZapiskaForm())
+		unique_forms.append(SmetaForm())
+		unique_forms.append(OtchetStudentaForm())
+		unique_forms.append(osnovnyeForm())
 	return render(request,"profile/documents.html",{"forms": unique_forms})

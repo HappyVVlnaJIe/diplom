@@ -1,0 +1,34 @@
+ys|date|Год отправления|
+gruppa|string|Студенческая группа|
+ms|date|Месяц отправления|
+dolzn_podrazd_st|string|Должностное подразделение|
+ds|date|День отправления|
+df|date|День прибытия|
+iofglavnyi_st|string|ФИО главного по подразделению|
+fiofull|string|ФИО обучающегося|полные ФИО
+yf|date|Год прибытия|
+cel_poezdki|string|Цель поездки|
+mf|date|Месяц прибытия|
+preambula|string|Преамбула|Вводная часть
+table_spisokdolznostnixprikaz|string||
+stringprikaz|string|Текст приказа|
+glavbyxfio|string|ФИО Главного бухгалтера|
+podrazdelenie|string|Название подразделения|
+kol_chel|int|Количество командируемых лиц|
+table_smetastudenta|string||
+rektorfio|string|ФИО Ректора|
+table_spisokdolznostnixsmeta|string||
+fioshort|string|ФИО сокращенно|Полностью фамилию и инициалы
+this_start|string||
+mesto_naznacheniya|string|Место назначения|Населенный пункт, университет
+naselennyj_punkt|string|Населенный пункт|
+nazvanie_meropriyatie|string|Название мероприятия|
+daystart|date|Дата отбытия|
+dayend|date|Дата прибытия|
+forma_obucheniya|string|Форма обучения|Очная или заочная
+osnova_obucheniya|string|Основа обучения|Контракт или бюджет
+table_spisokstudentov|string||
+kompensaciya|string|Компенсация|
+iofrektor|string|ФИО Ректора|
+dolzn_podrazd|string|Название подразделения|
+iofglavnyi|string|ФИО главного по подразделению|
