@@ -7,10 +7,10 @@ import docx
 import docx2txt
 from docx import Document
 import openpyxl
-doc_directory = ['.\students\primaryTemplates',
-                 '.\students\secondaryTemplates',]
+doc_directory = ['./students/primaryTemplates',
+                 './students/secondaryTemplates',]
 
-settings_path='.\doc_settings\prompt_and_types.txt'
+settings_path='./doc_settings/prompt_and_types.txt'
 
 primaryTemplates=[]
 
