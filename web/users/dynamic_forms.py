@@ -9,54 +9,54 @@ class NapravlenieStudentaForm(ModelForm):
 	name='НаправлениеСтудента'
 	class Meta:
 		model = NapravlenieStudenta
-		fields = ('ms', 'ys', 'iofglavnyi_st', 'fiofull', 'dolzn_podrazd_st', 'gruppa', 'mf', 'df', 'cel_poezdki', 'yf', 'ds',)
+		fields = ('fiofull', 'dolzn_podrazd_st', 'ds', 'cel_poezdki', 'gruppa', 'ys', 'iofglavnyi_st', 'mf', 'ms', 'df', 'yf',)
 
 
 		labels = {
-			'ms':_('Месяц отправления'),
-			'ys':_('Год отправления'),
-			'iofglavnyi_st':_('ФИО главного по подразделению'),
 			'fiofull':_('ФИО обучающегося'),
 			'dolzn_podrazd_st':_('Должностное подразделение'),
-			'gruppa':_('Студенческая группа'),
-			'mf':_('Месяц прибытия'),
-			'df':_('День прибытия'),
-			'cel_poezdki':_('Цель поездки'),
-			'yf':_('Год прибытия'),
 			'ds':_('День отправления'),
+			'cel_poezdki':_('Цель поездки'),
+			'gruppa':_('Студенческая группа'),
+			'ys':_('Год отправления'),
+			'iofglavnyi_st':_('ФИО главного по подразделению'),
+			'mf':_('Месяц прибытия'),
+			'ms':_('Месяц отправления'),
+			'df':_('День прибытия'),
+			'yf':_('Год прибытия'),
 		}
 		help_texts = {
-			'ms':_('Подсказка:'),
-			'ys':_('Подсказка:'),
-			'iofglavnyi_st':_('Подсказка:'),
 			'fiofull':_('Подсказка:полные ФИО'),
 			'dolzn_podrazd_st':_('Подсказка:'),
-			'gruppa':_('Подсказка:'),
-			'mf':_('Подсказка:'),
-			'df':_('Подсказка:'),
-			'cel_poezdki':_('Подсказка:'),
-			'yf':_('Подсказка:'),
 			'ds':_('Подсказка:'),
+			'cel_poezdki':_('Подсказка:'),
+			'gruppa':_('Подсказка:'),
+			'ys':_('Подсказка:'),
+			'iofglavnyi_st':_('Подсказка:'),
+			'mf':_('Подсказка:'),
+			'ms':_('Подсказка:'),
+			'df':_('Подсказка:'),
+			'yf':_('Подсказка:'),
 		}
 class PrikazForm(ModelForm):
 	index='1'
 	name='Приказ'
 	class Meta:
 		model = Prikaz
-		fields = ('stringprikaz', 'table_spisokdolznostnixprikaz', 'preambula', 'glavbyxfio',)
+		fields = ('preambula', 'glavbyxfio', 'table_spisokdolznostnixprikaz', 'stringprikaz',)
 
 
 		labels = {
-			'stringprikaz':_('Текст приказа'),
-			'table_spisokdolznostnixprikaz':_(''),
 			'preambula':_('Преамбула'),
 			'glavbyxfio':_('ФИО Главного бухгалтера'),
+			'table_spisokdolznostnixprikaz':_(''),
+			'stringprikaz':_('Текст приказа'),
 		}
 		help_texts = {
-			'stringprikaz':_('Подсказка:'),
-			'table_spisokdolznostnixprikaz':_('Подсказка:'),
 			'preambula':_('Подсказка:Вводная часть'),
 			'glavbyxfio':_('Подсказка:'),
+			'table_spisokdolznostnixprikaz':_('Подсказка:'),
+			'stringprikaz':_('Подсказка:'),
 		}
 class SluzhebnajaZapiskaForm(ModelForm):
 	index='1'
@@ -77,36 +77,36 @@ class SmetaForm(ModelForm):
 	name='Смета'
 	class Meta:
 		model = Smeta
-		fields = ('rektorfio', 'table_spisokdolznostnixsmeta', 'table_smetastudenta', 'kol_chel',)
+		fields = ('rektorfio', 'kol_chel', 'table_spisokdolznostnixsmeta', 'table_smetastudenta',)
 
 
 		labels = {
 			'rektorfio':_('ФИО Ректора'),
+			'kol_chel':_('Количество командируемых лиц'),
 			'table_spisokdolznostnixsmeta':_(''),
 			'table_smetastudenta':_(''),
-			'kol_chel':_('Количество командируемых лиц'),
 		}
 		help_texts = {
 			'rektorfio':_('Подсказка:'),
+			'kol_chel':_('Подсказка:'),
 			'table_spisokdolznostnixsmeta':_('Подсказка:'),
 			'table_smetastudenta':_('Подсказка:'),
-			'kol_chel':_('Подсказка:'),
 		}
 class OtchetStudentaForm(ModelForm):
 	index='2'
 	name='ОтчетСтудента'
 	class Meta:
 		model = OtchetStudenta
-		fields = ('fioshort', 'this_start',)
+		fields = ('this_start', 'fioshort',)
 
 
 		labels = {
-			'fioshort':_('ФИО сокращенно'),
 			'this_start':_(''),
+			'fioshort':_('ФИО сокращенно'),
 		}
 		help_texts = {
-			'fioshort':_('Подсказка:Полностью фамилию и инициалы'),
 			'this_start':_('Подсказка:'),
+			'fioshort':_('Подсказка:Полностью фамилию и инициалы'),
 		}
 class osnovnyeForm(ModelForm):
 	index='0'
