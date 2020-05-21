@@ -2,7 +2,7 @@ import os
 import re
 import subprocess
 from transliterate import translit
-from slugify import slugify
+import slugify
 import docx
 import docx2txt
 from docx import Document
@@ -54,7 +54,7 @@ def get_template_params():
                     template_file = template_file.split('\n')
                     for line in template_file:
                         for param_name in re.findall(r'#([\w_]+)', line):
-                            param_name=slugify(param_name,separator='_')
+                            param_name=slugify.slugify(param_name,separator='_')
                             template_params[filename].add( param_name)
                             if param_name not in template_params_counts:
                                 template_params_counts[param_name] = 1
@@ -72,7 +72,7 @@ def get_template_params():
                             s=str(cell.value)
                             if (s[0]=='#'):
                                 param_name=s.replace('#','')
-                                param_name = slugify(param_name, separator='_')
+                                param_name = slugify.slugify(param_name, separator='_')
                                 template_params[filename].add(param_name)
                                 if param_name not in template_params_counts:
                                     template_params_counts[param_name] = 1
@@ -102,7 +102,7 @@ def get_types_and_prompt_dict():
     with open(settings_path, 'r', encoding='utf8') as template_file:
         for line in template_file:
             param=line.split('|')
-            param[0]=slugify(param[0],separator='_')
+            param[0]=slugify.slugify(param[0],separator='_')
             var=variable(param)
             types_and_prompt[var.name]=var
 
