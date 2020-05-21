@@ -195,10 +195,12 @@ generate_models_file(fetched_template_params,types_and_prompt_dict)
 generate_forms_file(fetched_template_params,types_and_prompt_dict)
 generate_admin_file(fetched_template_params)
 generate_views_file(fetched_template_params)
-make_migrations_retcode = subprocess.run(["python", "manage.py", "makemigrations"], capture_output=True).returncode
+make_migrations_retcode = subprocess.run(["python", "manage.py", "makemigrations","--noinput"], capture_output=True).returncode
 migrate_retcode = -1
 if make_migrations_retcode == 0:
     migrate_retcode = subprocess.run(["python", "manage.py", "migrate"], capture_output=True).returncode
+"""
 if migrate_retcode == 0:
     result = subprocess.run(["python", "manage.py", "runserver"], capture_output=True)
     print(result)
+"""

@@ -2,22 +2,22 @@ from django.db import models
 
 
 class NapravlenieStudenta(models.Model):
-	fiofull = models.CharField(max_length=100)
-	dolzn_podrazd_st = models.CharField(max_length=100)
-	ds = models.DateTimeField()
+	mf = models.DateTimeField()
+	yf = models.DateTimeField()
 	cel_poezdki = models.CharField(max_length=100)
 	gruppa = models.CharField(max_length=100)
-	ys = models.DateTimeField()
 	iofglavnyi_st = models.CharField(max_length=100)
-	mf = models.DateTimeField()
-	ms = models.DateTimeField()
 	df = models.DateTimeField()
-	yf = models.DateTimeField()
+	dolzn_podrazd_st = models.CharField(max_length=100)
+	ys = models.DateTimeField()
+	ms = models.DateTimeField()
+	ds = models.DateTimeField()
+	fiofull = models.CharField(max_length=100)
 
 
 class Prikaz(models.Model):
-	preambula = models.CharField(max_length=100)
 	glavbyxfio = models.CharField(max_length=100)
+	preambula = models.CharField(max_length=100)
 	table_spisokdolznostnixprikaz = models.CharField(max_length=100)
 	stringprikaz = models.CharField(max_length=100)
 
@@ -27,10 +27,10 @@ class SluzhebnajaZapiska(models.Model):
 
 
 class Smeta(models.Model):
-	rektorfio = models.CharField(max_length=100)
 	kol_chel = models.IntegerField()
-	table_spisokdolznostnixsmeta = models.CharField(max_length=100)
 	table_smetastudenta = models.CharField(max_length=100)
+	table_spisokdolznostnixsmeta = models.CharField(max_length=100)
+	rektorfio = models.CharField(max_length=100)
 
 
 class OtchetStudenta(models.Model):
