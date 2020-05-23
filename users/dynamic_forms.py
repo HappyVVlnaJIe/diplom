@@ -1,126 +1,129 @@
 from django.forms import ModelForm
 from django import forms
 from django.utils.translation import ugettext_lazy as _
-from .dynamic_models import NapravlenieStudenta, SluzhebnajaZapiska, Smeta, OtchetStudenta, osnovnye
+from .dynamic_models import NapravlenieStudenta, Prikaz, SluzhebnajaZapiska, Smeta, OtchetStudenta, osnovnye
 
 
 class NapravlenieStudentaForm(ModelForm):
-	index='1'
 	name='НаправлениеСтудента'
+	mesto_naznacheniya=forms.CharField(label="Место назначения",help_text="Подсказка:Населенный пункт, университет")
+	naselennyj_punkt=forms.CharField(label="Населенный пункт",help_text="Подсказка:")
 	class Meta:
 		model = NapravlenieStudenta
-		fields = ('yf', 'ds', 'dolzn_podrazd_st', 'ms', 'iofglavnyi_st', 'gruppa', 'fiofull', 'df', 'ys', 'mf', 'cel_poezdki',)
-
+		fields = ('ys', 'gruppa', 'yf', 'iofglavnyi_st', 'df', 'fiofull', 'mf', 'ds', 'ms', 'dolzn_podrazd_st', 'cel_poezdki',)
 
 		labels = {
-			'yf':_('Год прибытия'),
-			'ds':_('День отправления'),
-			'dolzn_podrazd_st':_('Должностное подразделение'),
-			'ms':_('Месяц отправления'),
-			'iofglavnyi_st':_('ФИО главного по подразделению'),
-			'gruppa':_('Студенческая группа'),
-			'fiofull':_('ФИО обучающегося'),
-			'df':_('День прибытия'),
 			'ys':_('Год отправления'),
+			'gruppa':_('Студенческая группа'),
+			'yf':_('Год прибытия'),
+			'iofglavnyi_st':_('ФИО главного по подразделению'),
+			'df':_('День прибытия'),
+			'fiofull':_('ФИО обучающегося'),
 			'mf':_('Месяц прибытия'),
+			'ds':_('День отправления'),
+			'ms':_('Месяц отправления'),
+			'dolzn_podrazd_st':_('Должностное подразделение'),
 			'cel_poezdki':_('Цель поездки'),
 		}
 		help_texts = {
-			'yf':_('Подсказка:'),
-			'ds':_('Подсказка:'),
-			'dolzn_podrazd_st':_('Подсказка:'),
-			'ms':_('Подсказка:'),
-			'iofglavnyi_st':_('Подсказка:'),
-			'gruppa':_('Подсказка:'),
-			'fiofull':_('Подсказка:полные ФИО'),
-			'df':_('Подсказка:'),
 			'ys':_('Подсказка:'),
+			'gruppa':_('Подсказка:'),
+			'yf':_('Подсказка:'),
+			'iofglavnyi_st':_('Подсказка:'),
+			'df':_('Подсказка:'),
+			'fiofull':_('Подсказка:полные ФИО'),
 			'mf':_('Подсказка:'),
+			'ds':_('Подсказка:'),
+			'ms':_('Подсказка:'),
+			'dolzn_podrazd_st':_('Подсказка:'),
 			'cel_poezdki':_('Подсказка:'),
 		}
+class PrikazForm(ModelForm):
+	name='Приказ'
+	dolzn_podrazd=forms.CharField(label="Название подразделения",help_text="Подсказка:")
+	daystart=forms.DateTimeField(label="Дата отбытия",help_text="Подсказка:")
+	iofrektor=forms.CharField(label="ФИО Ректора",help_text="Подсказка:")
+	nazvanie_meropriyatie=forms.CharField(label="Название мероприятия",help_text="Подсказка:")
+	mesto_naznacheniya=forms.CharField(label="Место назначения",help_text="Подсказка:Населенный пункт, университет")
+	forma_obucheniya=forms.CharField(label="Форма обучения",help_text="Подсказка:Очная или заочная")
+	table_spisokstudentov=forms.CharField(label="",help_text="Подсказка:")
+	osnova_obucheniya=forms.CharField(label="Основа обучения",help_text="Подсказка:Контракт или бюджет")
+	kompensaciya=forms.CharField(label="Компенсация",help_text="Подсказка:")
+	dayend=forms.DateTimeField(label="Дата прибытия",help_text="Подсказка:")
+	iofglavnyi=forms.CharField(label="ФИО главного по подразделению",help_text="Подсказка:")
+	class Meta:
+		model = Prikaz
+		fields = ('preambula', 'glavbyxfio', 'table_spisokdolznostnixprikaz', 'stringprikaz',)
+
+		labels = {
+			'preambula':_('Преамбула'),
+			'glavbyxfio':_('ФИО Главного бухгалтера'),
+			'table_spisokdolznostnixprikaz':_(''),
+			'stringprikaz':_('Текст приказа'),
+		}
+		help_texts = {
+			'preambula':_('Подсказка:Вводная часть'),
+			'glavbyxfio':_('Подсказка:'),
+			'table_spisokdolznostnixprikaz':_('Подсказка:'),
+			'stringprikaz':_('Подсказка:'),
+		}
 class SluzhebnajaZapiskaForm(ModelForm):
-	index='1'
 	name='СлужебнаяЗаписка'
+	dolzn_podrazd=forms.CharField(label="Название подразделения",help_text="Подсказка:")
+	daystart=forms.DateTimeField(label="Дата отбытия",help_text="Подсказка:")
+	iofrektor=forms.CharField(label="ФИО Ректора",help_text="Подсказка:")
+	nazvanie_meropriyatie=forms.CharField(label="Название мероприятия",help_text="Подсказка:")
+	mesto_naznacheniya=forms.CharField(label="Место назначения",help_text="Подсказка:Населенный пункт, университет")
+	forma_obucheniya=forms.CharField(label="Форма обучения",help_text="Подсказка:Очная или заочная")
+	table_spisokstudentov=forms.CharField(label="",help_text="Подсказка:")
+	osnova_obucheniya=forms.CharField(label="Основа обучения",help_text="Подсказка:Контракт или бюджет")
+	kompensaciya=forms.CharField(label="Компенсация",help_text="Подсказка:")
+	dayend=forms.DateTimeField(label="Дата прибытия",help_text="Подсказка:")
+	iofglavnyi=forms.CharField(label="ФИО главного по подразделению",help_text="Подсказка:")
 	class Meta:
 		model = SluzhebnajaZapiska
-		fields = ('iofrektor', 'table_spisokstudentov', 'kompensaciya', 'podrazdelenie', 'osnova_obucheniya', 'forma_obucheniya',)
-
+		fields = ('podrazdelenie',)
 
 		labels = {
-			'iofrektor':_('ФИО Ректора'),
-			'table_spisokstudentov':_(''),
-			'kompensaciya':_('Компенсация'),
 			'podrazdelenie':_('Название подразделения'),
-			'osnova_obucheniya':_('Основа обучения'),
-			'forma_obucheniya':_('Форма обучения'),
 		}
 		help_texts = {
-			'iofrektor':_('Подсказка:'),
-			'table_spisokstudentov':_('Подсказка:'),
-			'kompensaciya':_('Подсказка:'),
 			'podrazdelenie':_('Подсказка:'),
-			'osnova_obucheniya':_('Подсказка:Контракт или бюджет'),
-			'forma_obucheniya':_('Подсказка:Очная или заочная'),
 		}
 class SmetaForm(ModelForm):
-	index='1'
 	name='Смета'
+	dolzn_podrazd=forms.CharField(label="Название подразделения",help_text="Подсказка:")
+	daystart=forms.DateTimeField(label="Дата отбытия",help_text="Подсказка:")
+	nazvanie_meropriyatie=forms.CharField(label="Название мероприятия",help_text="Подсказка:")
+	dayend=forms.DateTimeField(label="Дата прибытия",help_text="Подсказка:")
+	iofglavnyi=forms.CharField(label="ФИО главного по подразделению",help_text="Подсказка:")
 	class Meta:
 		model = Smeta
-		fields = ('table_smetastudenta', 'kol_chel', 'table_spisokdolznostnixsmeta', 'rektorfio',)
-
+		fields = ('rektorfio', 'table_smetastudenta', 'table_spisokdolznostnixsmeta', 'kol_chel',)
 
 		labels = {
-			'table_smetastudenta':_(''),
-			'kol_chel':_('Количество командируемых лиц'),
-			'table_spisokdolznostnixsmeta':_(''),
 			'rektorfio':_('ФИО Ректора'),
+			'table_smetastudenta':_(''),
+			'table_spisokdolznostnixsmeta':_(''),
+			'kol_chel':_('Количество командируемых лиц'),
 		}
 		help_texts = {
-			'table_smetastudenta':_('Подсказка:'),
-			'kol_chel':_('Подсказка:'),
-			'table_spisokdolznostnixsmeta':_('Подсказка:'),
 			'rektorfio':_('Подсказка:'),
+			'table_smetastudenta':_('Подсказка:'),
+			'table_spisokdolznostnixsmeta':_('Подсказка:'),
+			'kol_chel':_('Подсказка:'),
 		}
 class OtchetStudentaForm(ModelForm):
-	index='2'
 	name='ОтчетСтудента'
 	class Meta:
 		model = OtchetStudenta
-		fields = ('fioshort', 'this_start',)
-
+		fields = ('this_start', 'fioshort',)
 
 		labels = {
-			'fioshort':_('ФИО сокращенно'),
 			'this_start':_(''),
+			'fioshort':_('ФИО сокращенно'),
 		}
 		help_texts = {
-			'fioshort':_('Подсказка:Полностью фамилию и инициалы'),
 			'this_start':_('Подсказка:'),
-		}
-class osnovnyeForm(ModelForm):
-	index='0'
-	name='основные'
-	class Meta:
-		model = osnovnye
-		fields = ('mesto_naznacheniya', 'naselennyj_punkt', 'nazvanie_meropriyatie', 'daystart', 'dayend', 'dolzn_podrazd', 'iofglavnyi',)
-
-
-		labels = {
-			'mesto_naznacheniya':_('Место назначения'),
-			'naselennyj_punkt':_('Населенный пункт'),
-			'nazvanie_meropriyatie':_('Название мероприятия'),
-			'daystart':_('Дата отбытия'),
-			'dayend':_('Дата прибытия'),
-			'dolzn_podrazd':_('Название подразделения'),
-			'iofglavnyi':_('ФИО главного по подразделению'),
-		}
-		help_texts = {
-			'mesto_naznacheniya':_('Подсказка:Населенный пункт, университет'),
-			'naselennyj_punkt':_('Подсказка:'),
-			'nazvanie_meropriyatie':_('Подсказка:'),
-			'daystart':_('Подсказка:'),
-			'dayend':_('Подсказка:'),
-			'dolzn_podrazd':_('Подсказка:'),
-			'iofglavnyi':_('Подсказка:'),
+			'fioshort':_('Подсказка:Полностью фамилию и инициалы'),
 		}

@@ -3,9 +3,9 @@
 
 {% block content %}
     <div class="list-group list-group-horizontal" id="TemplatesList" role="tablist">
-         <a class="list-group-item list-group-item-action " data-toggle="list" href="#common" role="tab">Общие данные</a>
-        <a class="list-group-item list-group-item-action " data-toggle="list" href="#primary" role="tab">Первичные документы</a>
-        <a class="list-group-item list-group-item-action " data-toggle="list" href="#secondary" role="tab">Вторичные документы</a>
+         <a class="list-group-item list-group-item-action "  data-toggle="list"  role="tab">Общие данные</a>
+        <a class="list-group-item list-group-item-action "  data-toggle="list"  role="tab">Первичные документы</a>
+        <a class="list-group-item list-group-item-action " data-toggle="list"  role="tab">Вторичные документы</a>
     </div>
 
     <div class="tab-content">
@@ -23,13 +23,19 @@
                  {% for form in forms reversed %}
                     {% if form.index == '1' %}
                         <div class="tab-pane" id="{{ form.name }}" role="tabpanel">
+                         <form action="" method="post">{% csrf_token %}
                             {% for field in form %}
+
                                 {{ field.label }}<br/>
                                 {{ field }}<br/>
                                 {{ field.help_text }}<br/><br/>
+
                             {% endfor %}
+                         <input type="submit" value="Сохранить">
+                         </form>
                         </div>
                     {% endif %}
+
                  {% endfor %}
                 </div>
             </div>
