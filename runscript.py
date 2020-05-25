@@ -162,8 +162,7 @@ def generate_models_file(template_params_dict,types_and_prompt_dict):
                     raise AttributeError("Unknown type: '{}'!".format(param_type))
                 mandatory_attrs=[]
                 mandatory_attrs.extend(mandatory_params[param_type])
-                if template_name=="common":
-                    mandatory_attrs.append("blank=True")
+                mandatory_attrs.append("blank=True")
                 models_file.write('\t{} = models.{}({})\n'.format(param_name, strtype_to_ormtype_dict[param_type],','.join(mandatory_attrs))                                                                  )
             models_file.write('\n\n')
 
@@ -211,7 +210,8 @@ def generate_views_file(template_params_dict):
     with open('users/dynamic_views.py', 'w',encoding='utf8') as views_file:
         views_file.write('from .dynamic_forms import *\n'
                         'from django.contrib.auth.decorators import login_required\n'
-                        'from django.shortcuts import render, redirect\n')
+                        'from django.shortcuts import render, redirect\n'
+                         'import datetime\n')
         for i in range(len(order)):
             views_file.write('@login_required\n')
             views_file.write('def stage{}(request):\n'.format(i+1))
@@ -240,9 +240,22 @@ def generate_views_file(template_params_dict):
                 views_file.write("\t\treturn redirect('/stage{}')\n".format(i + 2))
 
             views_file.write("\telse:\n")
-            for form_name in order[i].split('|'):
-                form_name = str.strip(form_name)
-                views_file.write("\t\tunique_forms.append({}Form())\n".format(form_name))
+            if i==0:
+                for form_name in order[i].split('|'):
+                    form_name = str.strip(form_name)
+                    views_file.write("\t\tunique_forms.append({}Form())\n".format(form_name))
+            else:
+                for form_name in order[i].split('|'):
+                    form_name = str.strip(form_name)
+                    views_file.write("\t\tvar=obj._meta.get_fields()\n")
+                    views_file.write("\t\tmas=dict()\n")
+                    views_file.write("\t\tfor field in var:\n")
+                    views_file.write("\t\t\tparam=getattr(obj,field.name)\n")
+                    views_file.write("\t\t\tif type(param) is datetime.date:\n")
+                    views_file.write("\t\t\t\tparam=param.strftime('%Y-%m-%d')\n")
+                    views_file.write("\t\t\tmas[field.name]=param\n")
+                    views_file.write("\t\t{0}={0}Form(data=mas)\n".format(form_name))
+                    views_file.write("\t\tunique_forms.append({})\n".format(form_name))
             views_file.write('\t\treturn render(request,"profile/stage%d.html",{"forms": unique_forms})\n\n'%(i+1))
 
 def generate_order():
