@@ -7,6 +7,7 @@ import docx
 import docx2txt
 from docx import Document
 import openpyxl
+
 doc_directory = ['./students/primaryTemplates',
                  './students/secondaryTemplates',]
 
@@ -23,7 +24,7 @@ order=[]
 intersection_with_common=dict()
 
 strtype_to_ormtype_dict = {
-    'date': 'DateTimeField',
+    'date': 'DateField',
     'string': 'CharField',
     'text': 'TextField',
     'int': 'IntegerField',
@@ -31,8 +32,16 @@ strtype_to_ormtype_dict = {
 }
 
 mandatory_params= {
-'date':[] ,
+    'date':[] ,
     'string': ["max_length=100"],
+    'text':[] ,
+    'int': [],
+    'float': [],
+}
+
+mandatory_forms_params= {
+    'date':["widget=forms.DateInput(attrs={'type': 'date'})"] ,
+    'string': [],
     'text':[] ,
     'int': [],
     'float': [],
@@ -102,8 +111,21 @@ def get_template_params():
                 intersection_with_common[param_name].add(common_template_param)
                 template_params[param_name].remove(common_template_param)
 
-    template_params['osnovnye'] = common_template_params
+    template_params['common'] = common_template_params
     return template_params
+
+def delete_intersection_in_stage():
+    for stage in order:
+        forms=stage.split('|')
+        intersection=[]
+        for form in forms:
+            form=str.strip(form)
+            copy=intersection_with_common[form].copy()
+            for field in copy:
+                if intersection.count(field)==0:
+                    intersection.append(field)
+                else:
+                    intersection_with_common[form].remove(field)
 
 '''
 def create_types_and_prompt(template_params_dict):
@@ -137,8 +159,8 @@ def generate_models_file(template_params_dict,types_and_prompt_dict):
                     raise AttributeError("Unknown type: '{}'!".format(param_type))
                 mandatory_attrs=[]
                 mandatory_attrs.extend(mandatory_params[param_type])
-                if template_name=="osnovnye":
-                    mandatory_attrs.append("required=False")
+                if template_name=="common":
+                    mandatory_attrs.append("blank=True")
                 models_file.write('\t{} = models.{}({})\n'.format(param_name, strtype_to_ormtype_dict[param_type],','.join(mandatory_attrs))                                                                  )
             models_file.write('\n\n')
 
@@ -155,7 +177,11 @@ def generate_forms_file(template_params_dict,types_and_prompt_dict):
             forms_file.write("\tname='{}'\n".format(translit(template_name,"ru")))
             for field in intersection_with_common[template_name]:
                 var=types_and_prompt_dict[field]
-                forms_file.write('\t{}=forms.{}(label="{}",help_text="{}")\n'.format(field,strtype_to_ormtype_dict[var.type],var.title,var.prompt))
+                mandatory_attrs = []
+                mandatory_attrs.extend(mandatory_forms_params[var.type])
+                mandatory_attrs.append('label="{}"'.format(var.title))
+                mandatory_attrs.append('help_text="{}"'.format(var.prompt))
+                forms_file.write('\t{}=forms.{}({})\n'.format(field,strtype_to_ormtype_dict[var.type],','.join(mandatory_attrs)))
             forms_file.write('\tclass Meta:\n')
             forms_file.write('\t\tmodel = {}\n'.format(template_name))
             forms_file.write(
@@ -171,24 +197,6 @@ def generate_forms_file(template_params_dict,types_and_prompt_dict):
                 forms_file.write("\t\t\t'{}':_('{}'),\n".format(var.name, var.prompt))
             forms_file.write("\t\t}\n")
 
-        """for template_name, template_params in intersection_with_common.items():
-            forms_file.write('class {}Form(ModelForm):\n'.format(template_name))
-            forms_file.write("\tname='{}'\n".format("Intersection"+translit(template_name, "ru")))
-            forms_file.write('\tclass Meta:\n')
-            forms_file.write('\t\tmodel = {}\n'.format(template_name))
-            forms_file.write(
-                '\t\tfields = ({},)\n\n'.format(', '.join("'{0}'".format(param) for param in template_params)))
-            forms_file.write("\t\tlabels = {\n")
-            for param in template_params:
-                var = types_and_prompt_dict[param]
-                forms_file.write("\t\t\t'{}':_('{}'),\n".format(var.name, var.title))
-            forms_file.write("\t\t}\n")
-            forms_file.write("\t\thelp_texts = {\n")
-            for param in template_params:
-                var = types_and_prompt_dict[param]
-                forms_file.write("\t\t\t'{}':_('{}'),\n".format(var.name, var.prompt))
-            forms_file.write("\t\t}\n")"""
-
 def generate_admin_file(template_params_dict):
     with open('users/admin.py', 'w') as admin_file:
         admin_file.write('from django.contrib import admin\n')
@@ -198,19 +206,27 @@ def generate_admin_file(template_params_dict):
 
 def generate_views_file(template_params_dict):
     with open('users/dynamic_views.py', 'w',encoding='utf8') as views_file:
-        views_file.write('from .dynamic_forms import *\n')
-        views_file.write('from django.contrib.auth.decorators import login_required\n'
-                         'from django.shortcuts import render, redirect\n\n')
-        for i in range(1,len(order)):
+        views_file.write('from .dynamic_forms import *\n'
+                        'from django.contrib.auth.decorators import login_required\n'
+                        'from django.shortcuts import render, redirect\n')
+        for i in range(len(order)):
             views_file.write('@login_required\n')
             views_file.write('def stage{}(request):\n'.format(i+1))
             views_file.write('\tunique_forms=[]\n')
             views_file.write("\tif request.method == 'POST':\n")
+            if i==0:
+                views_file.write("\t\tobj=osnovnye()\n")
+            else:
+                views_file.write("\t\tobj=osnovnye.objects.order_by('-id')[0]\n")
+
             for form_name in order[i].split('|'):
-                form_name=str.strip(form_name)
+                form_name = str.strip(form_name)
                 views_file.write("\t\tunique_forms.append({}Form(data=request.POST))\n".format(form_name))
                 views_file.write("\t\tif unique_forms[-1].is_valid():\n")
                 views_file.write("\t\t\tunique_forms[-1].save()\n")
+                for field in intersection_with_common[form_name]:
+                    views_file.write("\t\tobj.{0}=unique_forms[-1].cleaned_data['{0}'] \n".format(field))
+            views_file.write("\t\tobj.save()\n")
             if i==len(order)-1:
                 views_file.write("\t\treturn redirect('/{}')\n".format(last_reference))
             else:
@@ -219,7 +235,7 @@ def generate_views_file(template_params_dict):
             for form_name in order[i].split('|'):
                 form_name = str.strip(form_name)
                 views_file.write("\t\tunique_forms.append({}Form())\n".format(form_name))
-                views_file.write('\t\treturn render(request,"profile/stage%d.html",{"forms": unique_forms})\n\n'%(i+1))
+            views_file.write('\t\treturn render(request,"profile/stage%d.html",{"forms": unique_forms})\n\n'%(i+1))
 
 def generate_order():
     with open(urls_order_path, 'r') as order_file:
@@ -241,14 +257,13 @@ def generate_html_files():
         with open("templates/profile/stage{}.html".format(i+1), 'w',encoding='utf8') as html_file:
             html_file.write('{% extends "base_generic.html" %}\n')
             html_file.write('{% block content %}\n')
-            html_file.write('{% for form in forms %}')
             html_file.write('<form action="" method="post">{% csrf_token %}\n')
+            html_file.write('{% for form in forms %}')
             html_file.write('{{ form.as_p }}\n')
+            html_file.write('{% endfor %}')
             html_file.write('<input type="submit" value="Сохранить">\n')
             html_file.write('</form>\n')
-            html_file.write('{% endfor %}')
             html_file.write('{% endblock %}\n')
-
 
 fetched_template_params = get_template_params()
 
@@ -256,6 +271,7 @@ fetched_template_params = get_template_params()
 
 types_and_prompt_dict=get_types_and_prompt_dict()
 generate_order()
+delete_intersection_in_stage()
 generate_html_files()
 generate_models_file(fetched_template_params,types_and_prompt_dict)
 generate_forms_file(fetched_template_params,types_and_prompt_dict)

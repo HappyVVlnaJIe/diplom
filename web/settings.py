@@ -134,6 +134,7 @@ EMAIL_HOST_USER = "test_for_diplom1@mail.ru"
 EMAIL_HOST_PASSWORD = 'w-X^*i94MjtcM;a'
 DEFAULT_FROM_EMAIL="test_for_diplom1@mail.ru"
 SERVER_EMAIL='test_for_diplom1@mail.ru'
+SESSION_ENGINE='django.contrib.sessions.backends.signed_cookies'
 
 # Heroku: Update database configuration from $DATABASE_URL.
 import dj_database_url

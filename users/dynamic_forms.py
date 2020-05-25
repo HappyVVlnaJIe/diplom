@@ -6,79 +6,79 @@ from .dynamic_models import NapravlenieStudenta, Prikaz, SluzhebnajaZapiska, Sme
 
 class NapravlenieStudentaForm(ModelForm):
 	name='НаправлениеСтудента'
-	mesto_naznacheniya=forms.CharField(label="Место назначения",help_text="Подсказка:Населенный пункт, университет")
 	naselennyj_punkt=forms.CharField(label="Населенный пункт",help_text="Подсказка:")
+	mesto_naznacheniya=forms.CharField(label="Место назначения",help_text="Подсказка:Населенный пункт, университет")
 	class Meta:
 		model = NapravlenieStudenta
-		fields = ('ys', 'gruppa', 'yf', 'iofglavnyi_st', 'df', 'fiofull', 'mf', 'ds', 'ms', 'dolzn_podrazd_st', 'cel_poezdki',)
+		fields = ('yf', 'ys', 'iofglavnyi_st', 'cel_poezdki', 'ds', 'gruppa', 'df', 'ms', 'mf', 'fiofull', 'dolzn_podrazd_st',)
 
 		labels = {
-			'ys':_('Год отправления'),
-			'gruppa':_('Студенческая группа'),
 			'yf':_('Год прибытия'),
+			'ys':_('Год отправления'),
 			'iofglavnyi_st':_('ФИО главного по подразделению'),
-			'df':_('День прибытия'),
-			'fiofull':_('ФИО обучающегося'),
-			'mf':_('Месяц прибытия'),
-			'ds':_('День отправления'),
-			'ms':_('Месяц отправления'),
-			'dolzn_podrazd_st':_('Должностное подразделение'),
 			'cel_poezdki':_('Цель поездки'),
+			'ds':_('День отправления'),
+			'gruppa':_('Студенческая группа'),
+			'df':_('День прибытия'),
+			'ms':_('Месяц отправления'),
+			'mf':_('Месяц прибытия'),
+			'fiofull':_('ФИО обучающегося'),
+			'dolzn_podrazd_st':_('Должностное подразделение'),
 		}
 		help_texts = {
-			'ys':_('Подсказка:'),
-			'gruppa':_('Подсказка:'),
 			'yf':_('Подсказка:'),
+			'ys':_('Подсказка:'),
 			'iofglavnyi_st':_('Подсказка:'),
-			'df':_('Подсказка:'),
-			'fiofull':_('Подсказка:полные ФИО'),
-			'mf':_('Подсказка:'),
-			'ds':_('Подсказка:'),
-			'ms':_('Подсказка:'),
-			'dolzn_podrazd_st':_('Подсказка:'),
 			'cel_poezdki':_('Подсказка:'),
+			'ds':_('Подсказка:'),
+			'gruppa':_('Подсказка:'),
+			'df':_('Подсказка:'),
+			'ms':_('Подсказка:'),
+			'mf':_('Подсказка:'),
+			'fiofull':_('Подсказка:полные ФИО'),
+			'dolzn_podrazd_st':_('Подсказка:'),
 		}
 class PrikazForm(ModelForm):
 	name='Приказ'
-	dolzn_podrazd=forms.CharField(label="Название подразделения",help_text="Подсказка:")
-	daystart=forms.DateTimeField(label="Дата отбытия",help_text="Подсказка:")
-	iofrektor=forms.CharField(label="ФИО Ректора",help_text="Подсказка:")
-	nazvanie_meropriyatie=forms.CharField(label="Название мероприятия",help_text="Подсказка:")
-	mesto_naznacheniya=forms.CharField(label="Место назначения",help_text="Подсказка:Населенный пункт, университет")
-	forma_obucheniya=forms.CharField(label="Форма обучения",help_text="Подсказка:Очная или заочная")
 	table_spisokstudentov=forms.CharField(label="",help_text="Подсказка:")
-	osnova_obucheniya=forms.CharField(label="Основа обучения",help_text="Подсказка:Контракт или бюджет")
+	mesto_naznacheniya=forms.CharField(label="Место назначения",help_text="Подсказка:Населенный пункт, университет")
+	iofrektor=forms.CharField(label="ФИО Ректора",help_text="Подсказка:")
+	forma_obucheniya=forms.CharField(label="Форма обучения",help_text="Подсказка:Очная или заочная")
+	nazvanie_meropriyatie=forms.CharField(label="Название мероприятия",help_text="Подсказка:")
 	kompensaciya=forms.CharField(label="Компенсация",help_text="Подсказка:")
-	dayend=forms.DateTimeField(label="Дата прибытия",help_text="Подсказка:")
+	dolzn_podrazd=forms.CharField(label="Название подразделения",help_text="Подсказка:")
+	osnova_obucheniya=forms.CharField(label="Основа обучения",help_text="Подсказка:Контракт или бюджет")
+	daystart=forms.DateField(widget=forms.DateInput(attrs={'type': 'date'}),label="Дата отбытия",help_text="Подсказка:")
+	dayend=forms.DateField(widget=forms.DateInput(attrs={'type': 'date'}),label="Дата прибытия",help_text="Подсказка:")
 	iofglavnyi=forms.CharField(label="ФИО главного по подразделению",help_text="Подсказка:")
 	class Meta:
 		model = Prikaz
-		fields = ('preambula', 'glavbyxfio', 'table_spisokdolznostnixprikaz', 'stringprikaz',)
+		fields = ('preambula', 'table_spisokdolznostnixprikaz', 'stringprikaz', 'glavbyxfio',)
 
 		labels = {
 			'preambula':_('Преамбула'),
-			'glavbyxfio':_('ФИО Главного бухгалтера'),
 			'table_spisokdolznostnixprikaz':_(''),
 			'stringprikaz':_('Текст приказа'),
+			'glavbyxfio':_('ФИО Главного бухгалтера'),
 		}
 		help_texts = {
 			'preambula':_('Подсказка:Вводная часть'),
-			'glavbyxfio':_('Подсказка:'),
 			'table_spisokdolznostnixprikaz':_('Подсказка:'),
 			'stringprikaz':_('Подсказка:'),
+			'glavbyxfio':_('Подсказка:'),
 		}
 class SluzhebnajaZapiskaForm(ModelForm):
 	name='СлужебнаяЗаписка'
-	dolzn_podrazd=forms.CharField(label="Название подразделения",help_text="Подсказка:")
-	daystart=forms.DateTimeField(label="Дата отбытия",help_text="Подсказка:")
-	iofrektor=forms.CharField(label="ФИО Ректора",help_text="Подсказка:")
-	nazvanie_meropriyatie=forms.CharField(label="Название мероприятия",help_text="Подсказка:")
-	mesto_naznacheniya=forms.CharField(label="Место назначения",help_text="Подсказка:Населенный пункт, университет")
-	forma_obucheniya=forms.CharField(label="Форма обучения",help_text="Подсказка:Очная или заочная")
 	table_spisokstudentov=forms.CharField(label="",help_text="Подсказка:")
-	osnova_obucheniya=forms.CharField(label="Основа обучения",help_text="Подсказка:Контракт или бюджет")
+	mesto_naznacheniya=forms.CharField(label="Место назначения",help_text="Подсказка:Населенный пункт, университет")
+	iofrektor=forms.CharField(label="ФИО Ректора",help_text="Подсказка:")
+	forma_obucheniya=forms.CharField(label="Форма обучения",help_text="Подсказка:Очная или заочная")
+	nazvanie_meropriyatie=forms.CharField(label="Название мероприятия",help_text="Подсказка:")
 	kompensaciya=forms.CharField(label="Компенсация",help_text="Подсказка:")
-	dayend=forms.DateTimeField(label="Дата прибытия",help_text="Подсказка:")
+	dolzn_podrazd=forms.CharField(label="Название подразделения",help_text="Подсказка:")
+	osnova_obucheniya=forms.CharField(label="Основа обучения",help_text="Подсказка:Контракт или бюджет")
+	daystart=forms.DateField(widget=forms.DateInput(attrs={'type': 'date'}),label="Дата отбытия",help_text="Подсказка:")
+	dayend=forms.DateField(widget=forms.DateInput(attrs={'type': 'date'}),label="Дата прибытия",help_text="Подсказка:")
 	iofglavnyi=forms.CharField(label="ФИО главного по подразделению",help_text="Подсказка:")
 	class Meta:
 		model = SluzhebnajaZapiska
@@ -92,26 +92,21 @@ class SluzhebnajaZapiskaForm(ModelForm):
 		}
 class SmetaForm(ModelForm):
 	name='Смета'
-	dolzn_podrazd=forms.CharField(label="Название подразделения",help_text="Подсказка:")
-	daystart=forms.DateTimeField(label="Дата отбытия",help_text="Подсказка:")
-	nazvanie_meropriyatie=forms.CharField(label="Название мероприятия",help_text="Подсказка:")
-	dayend=forms.DateTimeField(label="Дата прибытия",help_text="Подсказка:")
-	iofglavnyi=forms.CharField(label="ФИО главного по подразделению",help_text="Подсказка:")
 	class Meta:
 		model = Smeta
-		fields = ('rektorfio', 'table_smetastudenta', 'table_spisokdolznostnixsmeta', 'kol_chel',)
+		fields = ('table_spisokdolznostnixsmeta', 'kol_chel', 'table_smetastudenta', 'rektorfio',)
 
 		labels = {
-			'rektorfio':_('ФИО Ректора'),
-			'table_smetastudenta':_(''),
 			'table_spisokdolznostnixsmeta':_(''),
 			'kol_chel':_('Количество командируемых лиц'),
+			'table_smetastudenta':_(''),
+			'rektorfio':_('ФИО Ректора'),
 		}
 		help_texts = {
-			'rektorfio':_('Подсказка:'),
-			'table_smetastudenta':_('Подсказка:'),
 			'table_spisokdolznostnixsmeta':_('Подсказка:'),
 			'kol_chel':_('Подсказка:'),
+			'table_smetastudenta':_('Подсказка:'),
+			'rektorfio':_('Подсказка:'),
 		}
 class OtchetStudentaForm(ModelForm):
 	name='ОтчетСтудента'
