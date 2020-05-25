@@ -1,44 +1,50 @@
 from django.db import models
-
+from django.contrib.auth.models import User
 
 class NapravlenieStudenta(models.Model):
-	yf = models.DateField()
-	ys = models.DateField()
+	user = models.ForeignKey(User,on_delete=models.CASCADE)
 	iofglavnyi_st = models.CharField(max_length=100)
-	cel_poezdki = models.CharField(max_length=100)
+	ys = models.DateField()
 	ds = models.DateField()
-	gruppa = models.CharField(max_length=100)
-	df = models.DateField()
+	yf = models.DateField()
+	dolzn_podrazd_st = models.CharField(max_length=100)
 	ms = models.DateField()
+	cel_poezdki = models.CharField(max_length=100)
 	mf = models.DateField()
 	fiofull = models.CharField(max_length=100)
-	dolzn_podrazd_st = models.CharField(max_length=100)
+	df = models.DateField()
+	gruppa = models.CharField(max_length=100)
 
 
 class Prikaz(models.Model):
+	user = models.ForeignKey(User,on_delete=models.CASCADE)
+	stringprikaz = models.CharField(max_length=100)
 	preambula = models.CharField(max_length=100)
 	table_spisokdolznostnixprikaz = models.CharField(max_length=100)
-	stringprikaz = models.CharField(max_length=100)
 	glavbyxfio = models.CharField(max_length=100)
 
 
 class SluzhebnajaZapiska(models.Model):
+	user = models.ForeignKey(User,on_delete=models.CASCADE)
 	podrazdelenie = models.CharField(max_length=100)
 
 
 class Smeta(models.Model):
-	table_spisokdolznostnixsmeta = models.CharField(max_length=100)
+	user = models.ForeignKey(User,on_delete=models.CASCADE)
 	kol_chel = models.IntegerField()
-	table_smetastudenta = models.CharField(max_length=100)
 	rektorfio = models.CharField(max_length=100)
+	table_smetastudenta = models.CharField(max_length=100)
+	table_spisokdolznostnixsmeta = models.CharField(max_length=100)
 
 
 class OtchetStudenta(models.Model):
-	this_start = models.CharField(max_length=100)
+	user = models.ForeignKey(User,on_delete=models.CASCADE)
 	fioshort = models.CharField(max_length=100)
+	this_start = models.CharField(max_length=100)
 
 
-class osnovnye(models.Model):
+class common(models.Model):
+	user = models.ForeignKey(User,on_delete=models.CASCADE)
 	mesto_naznacheniya = models.CharField(max_length=100,blank=True)
 	naselennyj_punkt = models.CharField(max_length=100,blank=True)
 	nazvanie_meropriyatie = models.CharField(max_length=100,blank=True)

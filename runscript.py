@@ -148,9 +148,12 @@ def get_types_and_prompt_dict():
 
 def generate_models_file(template_params_dict,types_and_prompt_dict):
     with open('users/dynamic_models.py', 'w',encoding='utf8') as models_file:
-        models_file.write('from django.db import models\n\n\n')
+        models_file.write('from django.db import models\n')
+        models_file.write('from django.contrib.auth.models import User\n\n')
         for template_name, template_params in template_params_dict.items():
             models_file.write('class {}(models.Model):\n'.format(template_name))
+            models_file.write('\tuser = models.ForeignKey(User,on_delete=models.CASCADE)\n')
+
             for param_name in template_params:
                 param_type = types_and_prompt_dict[param_name].type
                 if not param_type:
@@ -171,7 +174,7 @@ def generate_forms_file(template_params_dict,types_and_prompt_dict):
         forms_file.write('from django.utils.translation import ugettext_lazy as _\n')
         forms_file.write('from .dynamic_models import {}\n\n\n'.format(', '.join(template_params_dict)))
         for template_name, template_params in template_params_dict.items():
-            if template_name=='osnovnye':
+            if template_name=='common':
                 continue
             forms_file.write('class {}Form(ModelForm):\n'.format(template_name))
             forms_file.write("\tname='{}'\n".format(translit(template_name,"ru")))
@@ -213,24 +216,29 @@ def generate_views_file(template_params_dict):
             views_file.write('@login_required\n')
             views_file.write('def stage{}(request):\n'.format(i+1))
             views_file.write('\tunique_forms=[]\n')
-            views_file.write("\tif request.method == 'POST':\n")
-            if i==0:
-                views_file.write("\t\tobj=osnovnye()\n")
+            if i == 0:
+                views_file.write("\tobj=common()\n")
             else:
-                views_file.write("\t\tobj=osnovnye.objects.order_by('-id')[0]\n")
-
+                views_file.write("\tobj = common.objects.filter(user=request.user).order_by('-id')[0]\n")
+            views_file.write("\tif request.method == 'POST':\n")
             for form_name in order[i].split('|'):
                 form_name = str.strip(form_name)
-                views_file.write("\t\tunique_forms.append({}Form(data=request.POST))\n".format(form_name))
-                views_file.write("\t\tif unique_forms[-1].is_valid():\n")
-                views_file.write("\t\t\tunique_forms[-1].save()\n")
+                views_file.write("\t\t{0}={0}Form(data=request.POST)\n".format(form_name))
+                views_file.write("\t\tif {}.is_valid():\n".format(form_name))
                 for field in intersection_with_common[form_name]:
-                    views_file.write("\t\tobj.{0}=unique_forms[-1].cleaned_data['{0}'] \n".format(field))
+                    views_file.write("\t\t\tobj.{0}={1}.cleaned_data['{0}'] \n".format(field,form_name))
+                views_file.write("\t\t\t{0}2={0}.save(commit=False)\n".format(form_name))
+                views_file.write("\t\t\t{0}2.user=request.user\n".format(form_name))
+                views_file.write("\t\t\t{0}2.save()\n".format(form_name))
+                views_file.write("\t\t\tunique_forms.append({0}2)\n".format(form_name))
+            if i==0:
+                views_file.write("\t\tobj.user=request.user\n")
             views_file.write("\t\tobj.save()\n")
             if i==len(order)-1:
                 views_file.write("\t\treturn redirect('/{}')\n".format(last_reference))
             else:
                 views_file.write("\t\treturn redirect('/stage{}')\n".format(i + 2))
+
             views_file.write("\telse:\n")
             for form_name in order[i].split('|'):
                 form_name = str.strip(form_name)
